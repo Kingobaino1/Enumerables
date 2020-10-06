@@ -181,4 +181,5 @@ def multiply_els(arr)
   arr.my_reduce { |result, element| result * element }
 end
 end
+      
              
