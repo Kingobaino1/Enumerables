@@ -150,27 +150,35 @@ end
     count
   end
   def my_map(my_proc = nil)
-  result = []
-  i = 0
-  while i < self.length
+    result = []
+    i = 0
+    while i < self.length
       if block_given?
-    result.push( yield self[i])
-    else
-    result.push(my_proc.call(self[i]))
+        result.push( yield self[i])
+      else
+        result.push(my_proc.call(self[i]))
+      end
+      i += 1
     end
-    i += 1
+    result
   end
-  result
- end
+ 
+  def my_reduce
+    reduce = nil
+     first_element = self.shift
+      self.unshift(first_element)
+  
+     i = 1 
+    while i < self.length
+      a = yield first_element, self[i]
+        reduce = a 
+        first_element = reduce
+      i += 1 
+    end
+    reduce
+  end
+def multiply_els(arr)
+  arr.my_reduce { |result, element| result * element }
 end
-
-ary = [1, 2, 4, 2, 8]
-a = ary.my_count               #=> 4
-b = ary.my_count(2)            #=> 2
- my_proc = proc {|x|  x ** 2 } #=> 3
-c = ary.my_map(&my_proc)
-d = ary.my_map{|x| x * 2}
-p a
-p b
-p c
-p d
+end
+             
