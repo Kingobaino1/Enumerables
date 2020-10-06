@@ -68,20 +68,48 @@ end
     end
   end
 
+  def my_any?(*args)
+    if args.length == 0
+     for i in self do
+      if block_given?
+       if (yield i)
+         return true
+       end
+      else
+        if i == nil
+          return true
+        else
+          return false
+        end
+       end
+      end
+     return false
+    else
+      for i in self do
+        if i == args[0]
+          return true
+        end
+        false
+      end
+      false
+    end
+  end
+
 end
 
-p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_all?(/t/)                        #=> false
-p [3, 3, 3].my_all?(3)                       #=> true
-p [nil, true, 99].my_all?                              #=> false
-p [].all?                                           #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+p %w[ant bear cat].my_any?(/d/)                        #=> false
+p [nil, true, 99].my_any?(Integer)                     #=> true
+p [nil, true, 99].my_any?                              #=> true
+p [].my_any?                                           #=> false
 
-# my_all_array = [1,2,3,3,7]
-# a = my_all_array.my_all? do |x|
-  # x  > 0
-# end
-# p a
+# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+# p %w[ant bear cat].my_all?(/t/)                        #=> false
+# p [3, 3, 3].my_all?(3)                       #=> true
+# p [nil, true, 99].my_all?                              #=> false
+# p [].all?                                           #=> true
 
 # my_array = [1,2,3,3,7]
 # a = my_array.my_select do |i|
