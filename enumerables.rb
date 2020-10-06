@@ -95,32 +95,42 @@ end
     end
   end
 
+  def my_none?(*args)
+    if args.length == 0
+    i = 0
+    while i < self.length
+      if block_given? 
+        if yield(self[i])
+          return false
+        end
+      else 
+       if self[i]
+      return false
+      end
+    end
+    i += 1
+    end
+    else
+      j = 0
+      while j < self.length
+       if self[j] == args[0]
+      return false
+      else
+      return true
+      end
+      j =+ 1
+      end
+      end
+    true
+  end
 end
 
-p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-p %w[ant bear cat].my_any?(/d/)                        #=> false
-p [nil, true, 99].my_any?(Integer)                     #=> true
-p [nil, true, 99].my_any?                              #=> true
-p [].my_any?                                           #=> false
 
-# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-# p %w[ant bear cat].my_all?(/t/)                        #=> false
-# p [3, 3, 3].my_all?(3)                       #=> true
-# p [nil, true, 99].my_all?                              #=> false
-# p [].all?                                           #=> true
-
-# my_array = [1,2,3,3,7]
-# a = my_array.my_select do |i|
-  #  i == 0
-# end
-# p a
-
-# b = [1,2,3,3,7].my_each_with_index do |value, index|
-#  p value => index
-# end
-
-arr = [1,2,3,4]
-a = arr.my_each 
-p a
+p  %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
+p  %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false 
+p  %w{ant bear cat}.my_none?(/d/) #=> true 
+p  [1, 3.14, 42].my_none?(Float) #=> false 
+p  [].my_none? #=> true 
+p   [nil].my_none? #=> true 
+p   [nil, false].my_none? #=> true 
+p  [nil, false, true].my_none? #=> false 
