@@ -4,7 +4,7 @@
 
 > Advanced Building Blocks - Enumerable Methods
 
-implementing Ruby’s enumerable methods.
+Implementing Ruby’s enumerable methods.
 
 ## Built With
 
@@ -30,7 +30,7 @@ implementing Ruby’s enumerable methods.
 
 ### Usage
 
-- On the terminal run ruby bubble_sort.rb
+- On the terminal run ruby enumerables.rb
 
 ## Authors
 
@@ -64,4 +64,4 @@ Give a ⭐️ if you like this project!
 
 ## 📝 License
 
-This project is [MIT](https://opensource.org/licenses/MIT) licensed.
+This project is [MIT](./LICENSE) licensed.
