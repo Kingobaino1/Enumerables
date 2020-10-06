@@ -41,17 +41,57 @@ module Enumerable
   array
 end
 
+  def my_all?(*args)
+    if args.length == 0
+     for i in self do
+      if block_given?
+       if (yield i) == false
+         return false
+       end
+      else
+        if i == nil
+          return false
+        else
+          return true
+        end
+       end
+      end
+     return true
+    else
+      for i in self do
+        if i != args[0]
+          return false
+        end
+        true
+      end
+      true
+    end
+  end
+
 end
 
-my_array = [1,2,3,3,7]
-a = my_array.my_select do |i|
-   i == 0
-end
-p a
+p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+p %w[ant bear cat].my_all?(/t/)                        #=> false
+p [3, 3, 3].my_all?(3)                       #=> true
+p [nil, true, 99].my_all?                              #=> false
+p [].all?                                           #=> true
 
-b = [1,2,3,3,7].my_each_with_index do |value, index|
- p value => index
-end
+# my_all_array = [1,2,3,3,7]
+# a = my_all_array.my_all? do |x|
+  # x  > 0
+# end
+# p a
+
+# my_array = [1,2,3,3,7]
+# a = my_array.my_select do |i|
+  #  i == 0
+# end
+# p a
+
+# b = [1,2,3,3,7].my_each_with_index do |value, index|
+#  p value => index
+# end
 
 arr = [1,2,3,4]
 a = arr.my_each 
