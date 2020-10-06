@@ -149,12 +149,28 @@ end
     end
     count
   end
+  def my_map(my_proc = nil)
+  result = []
+  i = 0
+  while i < self.length
+      if block_given?
+    result.push( yield self[i])
+    else
+    result.push(my_proc.call(self[i]))
+    end
+    i += 1
+  end
+  result
+ end
 end
 
 ary = [1, 2, 4, 2, 8]
 a = ary.my_count               #=> 4
 b = ary.my_count(2)            #=> 2
-c = ary.my_count {|x|  x % 2 == 0 } #=> 3
+ my_proc = proc {|x|  x ** 2 } #=> 3
+c = ary.my_map(&my_proc)
+d = ary.my_map{|x| x * 2}
 p a
 p b
 p c
+p d
