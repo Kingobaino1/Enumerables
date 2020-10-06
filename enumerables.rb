@@ -28,7 +28,27 @@ module Enumerable
     end
     array
   end
+
+  def my_select
+  array = []
+  i = 0
+  while i < self.length do
+    if yield(self[i])
+      array.push(self[i])
+    end
+    i += 1
+  end
+  array
 end
+
+end
+
+my_array = [1,2,3,3,7]
+a = my_array.my_select do |i|
+   i == 0
+end
+p a
+
 b = [1,2,3,3,7].my_each_with_index do |value, index|
  p value => index
 end
