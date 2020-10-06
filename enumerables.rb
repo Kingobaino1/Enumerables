@@ -123,14 +123,38 @@ end
       end
     true
   end
+  def my_count(*num)
+    count = 0
+    if num.length == 0
+      i = 0
+      while i < self.length
+      if block_given?
+      if yield self[i]
+       count += 1
+        end
+        else
+        return self.length
+        end
+        i += 1
+      end
+      elsif num.length == 1
+      i = 0
+      while i < self.length
+       if num[0] == self[i]
+        count += 1
+      end
+      i += 1
+      end
+      
+    end
+    count
+  end
 end
 
-
-p  %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-p  %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false 
-p  %w{ant bear cat}.my_none?(/d/) #=> true 
-p  [1, 3.14, 42].my_none?(Float) #=> false 
-p  [].my_none? #=> true 
-p   [nil].my_none? #=> true 
-p   [nil, false].my_none? #=> true 
-p  [nil, false, true].my_none? #=> false 
+ary = [1, 2, 4, 2, 8]
+a = ary.my_count               #=> 4
+b = ary.my_count(2)            #=> 2
+c = ary.my_count {|x|  x % 2 == 0 } #=> 3
+p a
+p b
+p c
