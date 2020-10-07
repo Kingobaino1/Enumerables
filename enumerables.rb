@@ -66,17 +66,17 @@ module Enumerable
 
   def my_any?(*args)
     if args.length.zero?
-    i = 0
-    while i < self.length
-      if block_given?
-        if yield self[i]
+      i = 0
+      while i < self.length
+        if block_given?
+          if yield self[i]
+            return true
+          end
+        else
           return true
         end
-      else
-        return true
+        i += 1
       end
-      i += 1
-    end 
     else
       j = 0
       while j < self.length
@@ -85,6 +85,7 @@ module Enumerable
         end
         j += 1
       end
+
     end
     false
   end
@@ -108,10 +109,11 @@ module Enumerable
         if self[j] == args[0]
           return false
         else
-          return true
+          true
         end
         j += 1
       end
+
     end
     true
   end
@@ -192,5 +194,5 @@ module Enumerable
     arr.my_inject { |result, element| result * element }
   end
 end
-                                  
+         
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
