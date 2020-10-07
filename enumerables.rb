@@ -111,6 +111,7 @@ module Enumerable
         else
           true
         end
+        
         j += 1
       end
 
@@ -194,5 +195,5 @@ module Enumerable
     arr.my_inject { |result, element| result * element }
   end
 end
-         
+
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
