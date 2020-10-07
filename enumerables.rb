@@ -66,27 +66,27 @@ module Enumerable
 
   def my_any?(*args)
     if args.length.zero?
-      for i in self do
-        if block_given?
-          if yield i
-            return true
-          end
-        elsif i.nil?
+    i = 0
+    while i < self.length
+      if block_given?
+        if yield self[i]
           return true
-        else
-          return false
         end
-        false
+      else
+        return true
       end
+      i += 1
+    end 
     else
-      for i in self do
-        if i == args[0]
+      j = 0
+      while j < self.length
+        if args[0] == self[j]
           return true
         end
-
+        j += 1
       end
-      false
     end
+    false
   end
 
   def my_none?(*args)
@@ -111,7 +111,7 @@ module Enumerable
           return true
         end
         j += 1
-      end  
+      end
     end
     true
   end
@@ -192,9 +192,5 @@ module Enumerable
     arr.my_inject { |result, element| result * element }
   end
 end
-
-p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-p [nil, true, 99].my_any?                              #=> true                                         #=> true
-
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
+                                  
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
