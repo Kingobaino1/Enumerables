@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting
 
 
 module Enumerable
@@ -51,13 +51,13 @@ module Enumerable
           if (yield i) == false
             return false
           end
-        elsif i == nil
-            return false
+        elsif i.nil?
+          return false
         else
-            return true
-          end
+          return true
         end
-      return true
+      end
+      true
     else
       # for i in self do
       i = 0
@@ -65,6 +65,7 @@ module Enumerable
         if i != args[0]
           return false
         end
+
         i += 1
       end
       true
@@ -72,44 +73,40 @@ module Enumerable
   end
 
   def my_any?(*args)
-    if args.length == 0
+    if args.length.zero?
       for i in self do
         if block_given?
-          if (yield i)
+          if yield i
             return true
           end
+        elsif i.nil?
+          return true
         else
-          if i == nil
-            return true
-          else
-            return false
-          end
-         end
+          return false
         end
-      return false
+      end
+      false
     else
       for i in self do
         if i == args[0]
           return true
         end
-        false
+
       end
       false
     end
   end
 
   def my_none?(*args)
-    if args.length == 0
+    if args.length.zero?
       i = 0
       while i < self.length
-        if block_given? 
-          if yield(self[i])
+        if block_given?
+          if yield self[i]
             return false
           end
-        else
-          if self[i]
-            return false
-          end
+        elsif self[i]
+          return false
         end
         i += 1
       end
@@ -121,20 +118,21 @@ module Enumerable
         else
           return true
         end
-        j =+ 1
-        end
+        j += 1
       end
+
+    end
     true
   end
 
   def my_count(*num)
     count = 0
-    if num.length == 0
+    if num.length.zero?
       i = 0
       while i < self.length
         if block_given?
           if yield self[i]
-           count += 1
+            count += 1
           end
         else
           return self.length
@@ -147,8 +145,8 @@ module Enumerable
         if num[0] == self[i]
           count += 1
         end
-          i += 1
-      end 
+        i += 1
+      end
     end
     count
   end
@@ -158,9 +156,9 @@ module Enumerable
     i = 0
     while i < self.length
       if block_given?
-        result.push( yield self[i])
+        result.push yield self[i]
       else
-        result.push(my_proc.call(self[i]))
+        result.push my_proc.call(self[i])
       end
       i += 1
     end
@@ -174,27 +172,27 @@ module Enumerable
     i = 1
     while i < self.length
       if block_given?
-         block_value = yield first_element, self[i]
-         reduce = block_value
-         first_element = reduce
+        block_value = yield first_element, self[i]
+        reduce = block_value
+        first_element = reduce
       elsif my_proc == :+
-         proc_symbol = first_element +  self[i]
-         reduce = proc_symbol
-         first_element = reduce
+        proc_symbol = first_element + self[i]
+        reduce = proc_symbol
+        first_element = reduce
       elsif my_proc == :*
-        proc_symbol = first_element *  self[i]
+        proc_symbol = first_element * self[i]
         reduce = proc_symbol
         first_element = reduce
       elsif my_proc == :-
-        proc_symbol = first_element -  self[i]
+        proc_symbol = first_element - self[i]
         reduce = proc_symbol
         first_element = reduce
       elsif my_proc == :/
-        proc_symbol = first_element /  self[i]
+        proc_symbol = first_element / self[i]
         reduce = proc_symbol
         first_element = reduce
       end
-      i += 1 
+      i += 1
     end
     reduce
   end
@@ -204,4 +202,4 @@ module Enumerable
   end
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSiz
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSiz, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting
