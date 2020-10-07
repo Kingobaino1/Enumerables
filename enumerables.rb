@@ -63,7 +63,6 @@ module Enumerable
     end
     true
   end
-  
 
   def my_any?(*args)
     if args.length.zero?
@@ -77,8 +76,8 @@ module Enumerable
         else
           return false
         end
+        false
       end
-      false
     else
       for i in self do
         if i == args[0]
@@ -112,8 +111,7 @@ module Enumerable
           return true
         end
         j += 1
-      end
-
+      end  
     end
     true
   end
@@ -195,11 +193,8 @@ module Enumerable
   end
 end
 
-p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_all?(/t/)                        #=> false
-p [1, 2i, 3.14].my_all?(Numeric)                       #=> true
-p [nil, true, 99].my_all?                              #=> false
-p [].my_all?                                           #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+p [nil, true, 99].my_any?                              #=> true                                         #=> true
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
