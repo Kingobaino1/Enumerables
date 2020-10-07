@@ -1,9 +1,12 @@
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize
+
+
 module Enumerable
   def my_each
     array = self if self.class == Array
     array = self.to_a if self.class == Range
     i = 0
-    while i < array.length 
+    while i < array.length
       if block_given?
         yield array[i]
       else
@@ -18,9 +21,9 @@ module Enumerable
     array = self if self.class == Array
     array = self.to_a if self.class == Range
     value = 0
-    while value < array.length do
+    while value < array.length
       if block_given?
-        yield(array[value],value)
+        yield(array[value], value)
       else
         return "\#<Enumerator: #{self}:my_each_with_index>"
       end
@@ -32,8 +35,8 @@ module Enumerable
   def my_select
     array = []
     i = 0
-    while i < self.length do
-      if yield(self[i])
+    while i < self.length
+      if yield self[i]
         array.push(self[i])
       end
       i += 1
@@ -42,27 +45,27 @@ module Enumerable
   end
 
   def my_all?(*args)
-    if args.length == 0
+    if args.length.zero?
       for i in self do
         if block_given?
           if (yield i) == false
             return false
           end
-        else
-          if i == nil
+        elsif i == nil
             return false
-          else
+        else
             return true
           end
-         end
         end
       return true
     else
-      for i in self do
+      # for i in self do
+      i = 0
+      while i < self.length
         if i != args[0]
           return false
         end
-        true
+        i += 1
       end
       true
     end
@@ -199,4 +202,6 @@ module Enumerable
   def multiply_els(arr)
     arr.my_inject { |result, element| result * element }
   end
-end 
+end
+
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSiz
