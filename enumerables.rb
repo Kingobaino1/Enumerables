@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
 
 module Enumerable
   def my_each
@@ -83,6 +83,7 @@ module Enumerable
         if args[0] == self[j]
           return true
         end
+
         j += 1
       end
 
@@ -111,10 +112,9 @@ module Enumerable
         else
           true
         end
-        
+
         j += 1
       end
-
     end
     true
   end
@@ -196,4 +196,4 @@ module Enumerable
   end
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
