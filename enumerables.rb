@@ -103,7 +103,7 @@ end
         if yield(self[i])
           return false
         end
-      else 
+      else
        if self[i]
       return false
       end
@@ -162,24 +162,41 @@ end
     end
     result
   end
- 
-  def my_reduce
-    reduce = nil
-     first_element = self.shift
-      self.unshift(first_element)
-  
-     i = 1 
-    while i < self.length
-      a = yield first_element, self[i]
-        reduce = a 
-        first_element = reduce
-      i += 1 
-    end
-    reduce
-  end
+  def my_inject(my_proc = nil)
+  reduce = nil
+   first_element = self.shift
+    self.unshift(first_element)
+
+   i = 1 
+   while i < self.length
+   if block_given?
+    a = yield first_element, self[i]
+      reduce = a 
+      first_element = reduce
+      elsif my_proc == :+
+       b = first_element +  self[i]
+       reduce = b
+       first_element = reduce
+       elsif my_proc == :*
+       b = first_element *  self[i]
+       reduce = b
+       first_element = reduce
+       elsif my_proc == :-
+       b = first_element -  self[i]
+       reduce = b
+       first_element = reduce
+       elsif my_proc == :/
+       b = first_element /  self[i]
+       reduce = b
+       first_element = reduce
+       end
+    i += 1
+   
+ end
+ reduce
+end
+
 def multiply_els(arr)
   arr.my_reduce { |result, element| result * element }
 end
-end
-      
-             
+end 
