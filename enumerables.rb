@@ -30,33 +30,33 @@ module Enumerable
   end
 
   def my_select
-  array = []
-  i = 0
-  while i < self.length do
-    if yield(self[i])
-      array.push(self[i])
+    array = []
+    i = 0
+    while i < self.length do
+      if yield(self[i])
+        array.push(self[i])
+      end
+      i += 1
     end
-    i += 1
+    array
   end
-  array
-end
 
   def my_all?(*args)
     if args.length == 0
-     for i in self do
-      if block_given?
-       if (yield i) == false
-         return false
-       end
-      else
-        if i == nil
-          return false
+      for i in self do
+        if block_given?
+          if (yield i) == false
+            return false
+          end
         else
-          return true
+          if i == nil
+            return false
+          else
+            return true
+          end
+         end
         end
-       end
-      end
-     return true
+      return true
     else
       for i in self do
         if i != args[0]
@@ -70,20 +70,20 @@ end
 
   def my_any?(*args)
     if args.length == 0
-     for i in self do
-      if block_given?
-       if (yield i)
-         return true
-       end
-      else
-        if i == nil
-          return true
+      for i in self do
+        if block_given?
+          if (yield i)
+            return true
+          end
         else
-          return false
+          if i == nil
+            return true
+          else
+            return false
+          end
+         end
         end
-       end
-      end
-     return false
+      return false
     else
       for i in self do
         if i == args[0]
@@ -97,58 +97,59 @@ end
 
   def my_none?(*args)
     if args.length == 0
-    i = 0
-    while i < self.length
-      if block_given? 
-        if yield(self[i])
-          return false
+      i = 0
+      while i < self.length
+        if block_given? 
+          if yield(self[i])
+            return false
+          end
+        else
+          if self[i]
+            return false
+          end
         end
-      else
-       if self[i]
-      return false
+        i += 1
       end
-    end
-    i += 1
-    end
     else
       j = 0
       while j < self.length
-       if self[j] == args[0]
-      return false
-      else
-      return true
-      end
-      j =+ 1
-      end
+        if self[j] == args[0]
+          return false
+        else
+          return true
+        end
+        j =+ 1
+        end
       end
     true
   end
+
   def my_count(*num)
     count = 0
     if num.length == 0
       i = 0
       while i < self.length
-      if block_given?
-      if yield self[i]
-       count += 1
-        end
+        if block_given?
+          if yield self[i]
+           count += 1
+          end
         else
-        return self.length
+          return self.length
         end
         i += 1
       end
-      elsif num.length == 1
+    elsif num.length == 1
       i = 0
       while i < self.length
-       if num[0] == self[i]
-        count += 1
-      end
-      i += 1
-      end
-      
+        if num[0] == self[i]
+          count += 1
+        end
+          i += 1
+      end 
     end
     count
   end
+
   def my_map(my_proc = nil)
     result = []
     i = 0
@@ -162,41 +163,40 @@ end
     end
     result
   end
+
   def my_inject(my_proc = nil)
-  reduce = nil
-   first_element = self.shift
+    reduce = nil
+    first_element = self.shift
     self.unshift(first_element)
-
-   i = 1 
-   while i < self.length
-   if block_given?
-    a = yield first_element, self[i]
-      reduce = a 
-      first_element = reduce
+    i = 1
+    while i < self.length
+      if block_given?
+         block_value = yield first_element, self[i]
+         reduce = block_value
+         first_element = reduce
       elsif my_proc == :+
-       b = first_element +  self[i]
-       reduce = b
-       first_element = reduce
-       elsif my_proc == :*
-       b = first_element *  self[i]
-       reduce = b
-       first_element = reduce
-       elsif my_proc == :-
-       b = first_element -  self[i]
-       reduce = b
-       first_element = reduce
-       elsif my_proc == :/
-       b = first_element /  self[i]
-       reduce = b
-       first_element = reduce
-       end
-    i += 1
-   
- end
- reduce
-end
+         proc_symbol = first_element +  self[i]
+         reduce = proc_symbol
+         first_element = reduce
+      elsif my_proc == :*
+        proc_symbol = first_element *  self[i]
+        reduce = proc_symbol
+        first_element = reduce
+      elsif my_proc == :-
+        proc_symbol = first_element -  self[i]
+        reduce = proc_symbol
+        first_element = reduce
+      elsif my_proc == :/
+        proc_symbol = first_element /  self[i]
+        reduce = proc_symbol
+        first_element = reduce
+      end
+      i += 1 
+    end
+    reduce
+  end
 
-def multiply_els(arr)
-  arr.my_reduce { |result, element| result * element }
-end
+  def multiply_els(arr)
+    arr.my_inject { |result, element| result * element }
+  end
 end 
