@@ -1,6 +1,5 @@
 # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
 
-
 module Enumerable
   def my_each
     array = self if self.class == Array
@@ -43,35 +42,6 @@ module Enumerable
     end
     array
   end
-
-  # def my_all?(*args)
-    # if args.length.zero?
-      # for i in self do
-        # if block_given?
-          # if (yield i) == false
-            # return false
-          # end
-        # elsif i.nil?
-          # return false
-        # else
-          # return true
-        # end
-        # true
-      # end
-      # true
-    # else
-      # for i in self do
-      # i = 0
-      # while i < self.length
-        # if i != args[0]
-          # return false
-        # end
-# 
-        # i += 1
-      # end
-      # true
-    # end
-  # end
 
   def my_all?(*args)
     if args.length.zero?
@@ -232,4 +202,4 @@ p [1, 2i, 3.14].my_all?(Numeric)                       #=> true
 p [nil, true, 99].my_all?                              #=> false
 p [].my_all?                                           #=> true
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSiz, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Style/For, Style/IfUnlessModifier, Metrics/BlockNesting
