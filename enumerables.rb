@@ -43,7 +43,7 @@ module Enumerable
         end
       else
         return to_enum(:my_select)
-      end  
+      end
       i += 1
     end
     array
@@ -201,7 +201,7 @@ module Enumerable
 end
 
 def multiply_els(arr)
-    arr.my_inject { |result, element| result * element }
+  arr.my_inject { |result, element| result * element }
 end
 
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
