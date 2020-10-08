@@ -3,13 +3,13 @@
 module Enumerable
   def my_each
     array = self if self.class == Array
-    array = self.to_a if self.class == Range
+    array = self.to_a if self.class == Range or self.class == Hash
     i = 0
     while i < array.length
       if block_given?
         yield array[i]
       else
-        return "\#<Enumerator: #{self}:my_each>"
+        return to_enum(:my_each)
       end
       i += 1
     end
@@ -18,13 +18,13 @@ module Enumerable
 
   def my_each_with_index
     array = self if self.class == Array
-    array = self.to_a if self.class == Range
+    array = self.to_a if self.class == Range or self.class == Hash
     value = 0
     while value < array.length
       if block_given?
         yield(array[value], value)
       else
-        return "\#<Enumerator: #{self}:my_each_with_index>"
+        return to_enum(:my_each_with_index)
       end
       value += 1
     end
@@ -32,12 +32,18 @@ module Enumerable
   end
 
   def my_select
+    arr = self if self.class == Array
+    arr = self.to_a if self.class == Range
     array = []
     i = 0
-    while i < self.length
-      if yield self[i]
-        array.push(self[i])
-      end
+    while i < arr.length
+      if block_given?
+        if yield arr[i]
+          array.push(arr[i])
+        end
+      else
+        return to_enum(:my_select)
+      end  
       i += 1
     end
     array
@@ -120,23 +126,25 @@ module Enumerable
   end
 
   def my_count(*num)
+    array = self if self.class == Array
+    array = self.to_a if self.class == Range
     count = 0
     if num.length.zero?
       i = 0
-      while i < self.length
+      while i < array.length
         if block_given?
-          if yield self[i]
+          if yield array[i]
             count += 1
           end
         else
-          return self.length
+          return array.length
         end
         i += 1
       end
     elsif num.length == 1
       i = 0
-      while i < self.length
-        if num[0] == self[i]
+      while i < array.length
+        if num[0] == array[i]
           count += 1
         end
         i += 1
@@ -190,10 +198,10 @@ module Enumerable
     end
     reduce
   end
+end
 
-  def multiply_els(arr)
+def multiply_els(arr)
     arr.my_inject { |result, element| result * element }
-  end
 end
 
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
