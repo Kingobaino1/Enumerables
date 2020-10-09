@@ -60,7 +60,7 @@ module Enumerable
         end
 
         i += 1
-        end
+      end
     elsif !args.nil?
       j = 0
       while j < array.size
@@ -72,10 +72,10 @@ module Enumerable
           return false
         elsif args.is_a?(Numeric) && array[j] != args
           return false
-       end
+        end
 
         j += 1
-      end
+    end
 
     end
     if !args.nil? && args.is_a?(Regexp)
@@ -103,7 +103,7 @@ module Enumerable
         end
 
         i += 1
-        end
+      end
     elsif !args.nil?
       j = 0
       while j < array.size
@@ -115,7 +115,7 @@ module Enumerable
           return true
         elsif args.is_a?(Numeric) && array[j] == args
           return true
-       end
+        end
 
         j += 1
       end
@@ -145,7 +145,7 @@ module Enumerable
         end
 
         i += 1
-        end
+      end
     elsif !args.nil?
       j = 0
       while j < array.size
@@ -157,7 +157,7 @@ module Enumerable
           return false
         elsif args.is_a?(Numeric) && array[j] == args
           return false
-       end
+        end
 
         j += 1
       end
@@ -256,20 +256,20 @@ module Enumerable
       end
     elsif args.size == 2
       j = 1
-      reduce_2 = nil
+      reduce_b = nil
       operator = args[1].to_s
       while j < array.length
         proc_symbol = (first_element.send operator, array[j])
-        reduce_2 = proc_symbol
-        first_element = reduce_2
+        reduce_b = proc_symbol
+        first_element = reduce_b
         j += 1
       end
-      reduce_2 = args[0].send operator, reduce_2
+      reduce_b = args[0].send operator, reduce_b
     end
     if args.size.zero? || args.size == 1
       reduce
     else
-      reduce_2
+      reduce_b
     end
   end
 end
