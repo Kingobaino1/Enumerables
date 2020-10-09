@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
 
 module Enumerable
@@ -46,7 +48,7 @@ module Enumerable
     array
   end
 
- def my_all?(args = nil)
+  def my_all?(args = nil)
     array = to_a
     if args.nil?
       i = 0
@@ -56,35 +58,38 @@ module Enumerable
         elsif !block_given? && (array[i].nil? || !array[i])
           return false
         end
+
         i += 1
         end
-    elsif args != nil
-      j = 0 
+    elsif !args.nil?
+      j = 0
       while j < array.size
-       if !array[j].is_a?(Float) && args == Float
-        return false
-       elsif !array[j].is_a?(Integer) && args == Integer
-        return false
-       elsif !array[j].is_a?(Numeric) && args == Numeric
-        return false 
-       elsif args.is_a?(Numeric) && array[j] != args
-        return false  
+        if !array[j].is_a?(Float) && args == Float
+          return false
+        elsif !array[j].is_a?(Integer) && args == Integer
+          return false
+        elsif !array[j].is_a?(Numeric) && args == Numeric
+          return false
+        elsif args.is_a?(Numeric) && array[j] != args
+          return false
+       end
+
+        j += 1
       end
-      j += 1
-      end
-      
+
     end
-    if args != nil && args.is_a?(Regexp)
+    if !args.nil? && args.is_a?(Regexp)
       i = 0
       while i < self.size
-        if !array[i].match?(args)
+        unless array[i].match?(args)
           return false
         end
+
         i += 1
-      end 
+      end
     end
     true
-  end
+   end
 
   def my_any?(args = nil)
     array = to_a
@@ -96,31 +101,34 @@ module Enumerable
         elsif !block_given? && (array[i])
           return true
         end
+
         i += 1
         end
-    elsif args != nil
-      j = 0 
+    elsif !args.nil?
+      j = 0
       while j < array.size
-       if array[j].is_a?(Float) && args == Float
-        return true
-       elsif array[j].is_a?(Integer) && args == Integer
-        return true
-       elsif array[j].is_a?(Numeric) && args == Numeric
-        return true 
-       elsif args.is_a?(Numeric) && array[j] == args
-        return true  
-      end
-      j += 1
+        if array[j].is_a?(Float) && args == Float
+          return true
+        elsif array[j].is_a?(Integer) && args == Integer
+          return true
+        elsif array[j].is_a?(Numeric) && args == Numeric
+          return true
+        elsif args.is_a?(Numeric) && array[j] == args
+          return true
+       end
+
+        j += 1
       end
     end
-    if args != nil && args.is_a?(Regexp)
+    if !args.nil? && args.is_a?(Regexp)
       i = 0
       while i < self.size
         if array[i].match?(args)
           return true
         end
+
         i += 1
-      end 
+      end
     end
     false
   end
@@ -135,31 +143,34 @@ module Enumerable
         elsif !block_given? && (array[i])
           return false
         end
+
         i += 1
         end
-    elsif args != nil
-      j = 0 
+    elsif !args.nil?
+      j = 0
       while j < array.size
-       if array[j].is_a?(Float) && args == Float
-        return false
-       elsif array[j].is_a?(Integer) && args == Integer
-        return false
-       elsif array[j].is_a?(Numeric) && args == Numeric
-        return false 
-       elsif args.is_a?(Numeric) && array[j] == args
-        return false  
-      end
-      j += 1
+        if array[j].is_a?(Float) && args == Float
+          return false
+        elsif array[j].is_a?(Integer) && args == Integer
+          return false
+        elsif array[j].is_a?(Numeric) && args == Numeric
+          return false
+        elsif args.is_a?(Numeric) && array[j] == args
+          return false
+       end
+
+        j += 1
       end
     end
-    if args != nil && args.is_a?(Regexp)
+    if !args.nil? && args.is_a?(Regexp)
       i = 0
       while i < self.size
         if array[i].match?(args)
           return false
         end
+
         i += 1
-      end 
+      end
     end
     true
   end
@@ -194,6 +205,7 @@ module Enumerable
   def my_map(my_proc = nil)
     array = to_a
     return to_enum(:my_map) unless block_given? || my_proc
+
     result = []
     if my_proc
       i = 0
@@ -212,53 +224,53 @@ module Enumerable
   end
 
   def my_inject(*args)
-     array = to_a
-     reduce = nil
-     first_element = array.shift
-     array.unshift(first_element)
-     if args.size.zero? || (args.size == 1 && block_given?)
-       if args.size == 1
-      first_element = args[0]
-       i = 0
-       else
-       i = 1
-       end
-       while i < array.length
-         if block_given?
-         block_value = yield first_element, array[i]
-           reduce = block_value
-           first_element = reduce
-         elsif !block_given? || !args.size.zero?
-           return yield
-         end
-         i += 1
-       end
-     elsif args.size == 1
-       j = 1
-       while j < array.length
-         operator = args[0].to_s
-         proc_symbol = (first_element.send operator, array[j])
-         reduce = proc_symbol
-         first_element = reduce
-         j += 1
-       end 
-     elsif args.size == 2
-       j = 1
-       reduce_2 = nil
-       operator = args[1].to_s
-       while j < array.length 
-         proc_symbol = (first_element.send operator, array[j])
-         reduce_2 = proc_symbol
-         first_element = reduce_2
-         j += 1
-       end 
-         reduce_2 = args[0].send operator, reduce_2
-     end
-     if args.size.zero? || args.size == 1
-       return reduce
-     else
-       return reduce_2
-     end
+    array = to_a
+    reduce = nil
+    first_element = array.shift
+    array.unshift(first_element)
+    if args.size.zero? || (args.size == 1 && block_given?)
+      if args.size == 1
+        first_element = args[0]
+        i = 0
+      else
+        i = 1
+      end
+      while i < array.length
+        if block_given?
+          block_value = yield first_element, array[i]
+          reduce = block_value
+          first_element = reduce
+        elsif !block_given? || !args.size.zero?
+          return yield
+        end
+        i += 1
+      end
+    elsif args.size == 1
+      j = 1
+      while j < array.length
+        operator = args[0].to_s
+        proc_symbol = (first_element.send operator, array[j])
+        reduce = proc_symbol
+        first_element = reduce
+        j += 1
+      end
+    elsif args.size == 2
+      j = 1
+      reduce_2 = nil
+      operator = args[1].to_s
+      while j < array.length
+        proc_symbol = (first_element.send operator, array[j])
+        reduce_2 = proc_symbol
+        first_element = reduce_2
+        j += 1
+      end
+      reduce_2 = args[0].send operator, reduce_2
+    end
+    if args.size.zero? || args.size == 1
+      reduce
+    else
+      reduce_2
+    end
   end
 end
 
@@ -266,9 +278,4 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
-p [1,2,3,4].my_inject{|sum, val| sum + val} #12
-p [1,2,3,4].my_inject{|sum, val| sum * val} #48
-p [1,2,3,4].my_inject{|sum, val| sum - val} #-8
-p [1,2,3,4].my_inject{|sum, val| sum / val} #0
-# p [1,2,3,4].my_inject(5, :+)
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
