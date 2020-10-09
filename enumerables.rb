@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/ModuleLength
 
 module Enumerable
   def my_each
@@ -75,7 +75,7 @@ module Enumerable
         end
 
         j += 1
-    end
+      end
 
     end
     if !args.nil? && args.is_a?(Regexp)
@@ -89,7 +89,7 @@ module Enumerable
       end
     end
     true
-   end
+  end
 
   def my_any?(args = nil)
     array = to_a
@@ -278,4 +278,4 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/ModuleLength
