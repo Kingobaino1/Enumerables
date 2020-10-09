@@ -7,6 +7,7 @@ module Enumerable
     i = 0
     while i < array.length
       yield array[i]
+
       i += 1
     end
     self
@@ -18,6 +19,7 @@ module Enumerable
     value = 0
     while value < array.length
       yield(array[value], value)
+
       value += 1
     end
     array
@@ -30,6 +32,7 @@ module Enumerable
     i = 0
     while i < arr.length
       array.push(arr[i]) if yield arr[i]
+      
       i += 1
     end
     array
