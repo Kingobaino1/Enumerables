@@ -182,9 +182,7 @@ module Enumerable
       i = 0
       while i < array.length
         if block_given?
-          if yield array[i]
-            count += 1
-          end
+          count += 1 if yield array[i]
         else
           return array.length
         end
