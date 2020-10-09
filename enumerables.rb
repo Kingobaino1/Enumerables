@@ -57,10 +57,8 @@ module Enumerable
       while i < array.size
         if block_given? && !(yield array[i])
           return false
-        elsif array[i].nil? || !array[i]
+        elsif !block_given? && (array[i].nil? || !array[i])
           return false
-        else
-          return true
         end
         i += 1
         end
@@ -237,9 +235,9 @@ def multiply_els(arr)
 end
 p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
 p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_all?(/d/)                        #=> false
+p %w[ant bear cat].my_all?(/a/)                        #=> false
 p [1, 2, 3].my_all?(Integer)                       #=> true
-p [nil, true, 99].my_all?                              #=> false
+p [false, true, 99].my_all?                              #=> false
 p [].my_all?{|num| num == 0}   
 arr = [1,2,3,4]
                                     #=> true
