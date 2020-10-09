@@ -49,35 +49,47 @@ module Enumerable
     array
   end
 
- def my_all?(*args)
-   array = self if self.class == Array
-   array = self.to_a if self.class == Range
-   i = 0
-   while i < array.size
-     if args.size.zero?
-       if block_given? && !(yield array[i])
-         return false
-       elsif array[i].nil? || !array[i]
-         return false
-       else
-         return true
-       end
-     elsif args[0] == Float && args[0]!= array[i][i].class
-       return false
-      elsif args[0].class == Regexp && array[i][i].match(args[0]).nil?
-       return false
-     elsif args[0] == Integer && args[0] != array[i][i].class
-       return false
-     elsif args[0] == Numeric && args[0] != (array[i][i].class).superclass
-       return false
-      elsif (args[0] != Float && args[0] != Integer && args[0] != Numeric && args[0].class != Regexp) && args[0] != array[i]
-       return false
-     else
-       return true
-     end
-     i += 1
-   end
-   true
+ def my_all?(args = nil)
+    array = self if self.class == Array
+    array = self.to_a if self.class == Range
+    if args.nil?
+      i = 0
+      while i < array.size
+        if block_given? && !(yield array[i])
+          return false
+        elsif array[i].nil? || !array[i]
+          return false
+        else
+          return true
+        end
+        i += 1
+        end
+    elsif args != nil
+      j = 0 
+      while j < array.size
+       if !array[j].is_a?(Float) && args == Float
+        return false
+       elsif !array[j].is_a?(Integer) && args == Integer
+        return false
+       elsif !array[j].is_a?(Numeric) && args == Numeric
+        return false 
+       elsif args.is_a?(Numeric) && array[j] != args
+        return false  
+      end
+      j += 1
+      end
+      
+    end
+    if args != nil && args.is_a?(Regexp)
+      i = 0
+      while i < self.size
+        if !array[i].match?(args)
+          return false
+        end
+        i += 1
+      end 
+    end
+    true
   end
 
   def my_any?(*args)
@@ -223,18 +235,18 @@ end
 def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
-# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-# p %w[ant bear cat].my_all?(/a/)                        #=> false
-# p [1, 2, 3.0].my_all?(Integer)                       #=> true
-# p [nil, true, 99].my_all?                              #=> false
-# p [].my_all?{|num| num == 0}   
+p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+p %w[ant bear cat].my_all?(/d/)                        #=> false
+p [1, 2, 3].my_all?(Integer)                       #=> true
+p [nil, true, 99].my_all?                              #=> false
+p [].my_all?{|num| num == 0}   
 arr = [1,2,3,4]
                                     #=> true
-my_proc = proc {|num| num * 2}
-my_procs = arr.my_map( &my_proc )
-my_procs = arr.my_map {|num| num ** 2}   
+# my_proc = proc {|num| num * 2}
+# my_procs = arr.my_map( &my_proc )
+# my_procs = arr.my_map {|num| num ** 2}   
 # my_procs = arr.my_map(&my_proc) {|num| num ** 2}  
-p (1..5).my_inject(:+)
- p my_procs
+# p (1..5).my_inject(:+)
+#  p my_procs
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
