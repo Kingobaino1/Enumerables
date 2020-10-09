@@ -24,7 +24,7 @@ module Enumerable
 
       value += 1
     end
-    array
+    self
   end
 
   def my_select
@@ -62,7 +62,7 @@ module Enumerable
           return false
         elsif !array[j].is_a?(Numeric) && args == Numeric
           return false
-        elsif args.is_a?(Numeric) && array[j] != args
+        elsif (args.is_a?(Numeric) || args.is_a?(String)) && array[j] != args
           return false
         end
 
@@ -103,7 +103,7 @@ module Enumerable
           return true
         elsif array[j].is_a?(Numeric) && args == Numeric
           return true
-        elsif args.is_a?(Numeric) && array[j] == args
+        elsif (args.is_a?(Numeric) || args.is_a?(String)) && array[j] == args
           return true
         end
 
@@ -143,7 +143,7 @@ module Enumerable
           return false
         elsif array[j].is_a?(Numeric) && args == Numeric
           return false
-        elsif args.is_a?(Numeric) && array[j] == args
+        elsif (args.is_a?(Numeric) || args.is_a?(String)) && array[j] == args
           return false
         end
 
