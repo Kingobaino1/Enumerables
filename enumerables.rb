@@ -4,6 +4,7 @@ module Enumerable
   def my_each
     array = to_a
     return to_enum(:my_each) unless block_given?
+
     i = 0
     while i < array.length
       yield array[i]
@@ -16,6 +17,7 @@ module Enumerable
   def my_each_with_index
     array = to_a
     return to_enum(:my_each_with_index) unless block_given?
+
     value = 0
     while value < array.length
       yield(array[value], value)
@@ -28,11 +30,11 @@ module Enumerable
   def my_select
     arr = to_a
     return to_enum(:my_select) unless block_given?
+
     array = []
     i = 0
     while i < arr.length
       array.push(arr[i]) if yield arr[i]
-      
       i += 1
     end
     array
