@@ -130,30 +130,42 @@ module Enumerable
     false
   end
 
-  def my_none?(*args)
-    if args.length.zero?
+  def my_none?(args = nil)
+    array = self if self.class == Array
+    array = self.to_a if self.class == Range
+    if args.nil?
       i = 0
-      while i < self.length
-        if block_given?
-          if yield self[i]
-            return false
-          end
-        elsif self[i]
+      while i < array.size
+        if block_given? && (yield array[i])
+          return false
+        elsif !block_given? && (array[i])
           return false
         end
         i += 1
-      end
-    else
-      j = 0
-      while j < self.length
-        if self[j] == args[0]
-          return false
-        else
-          true
         end
-
-        j += 1
+    elsif args != nil
+      j = 0 
+      while j < array.size
+       if array[j].is_a?(Float) && args == Float
+        return false
+       elsif array[j].is_a?(Integer) && args == Integer
+        return false
+       elsif array[j].is_a?(Numeric) && args == Numeric
+        return false 
+       elsif args.is_a?(Numeric) && array[j] == args
+        return false  
       end
+      j += 1
+      end
+    end
+    if args != nil && args.is_a?(Regexp)
+      i = 0
+      while i < self.size
+        if array[i].match?(args)
+          return false
+        end
+        i += 1
+      end 
     end
     true
   end
@@ -246,13 +258,19 @@ end
 def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
-p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_all?(/a/)                        #=> false
-p [1, 2, 3].my_all?(Integer)                       #=> true
-p [false, true, 99].my_all?                              #=> false
-p [].my_all?{|num| num == 0}   
-arr = [1,2,3,4]
+# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+# p %w[ant bear cat].my_all?(/a/)                        #=> false
+# p [1, 2, 3].my_all?(Integer)                       #=> true
+# p [false, true, 99].my_all?                              #=> false
+# p [].my_all?{|num| num == 0}   
+# arr = [1,2,3,4]
+
+p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
+p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
+p [].my_none?                                           #=> true
+p [nil].my_none?                                        #=> true
+p [nil, false].my_none?                                 #=> true
                                     #=> true
 # my_proc = proc {|num| num * 2}
 # my_procs = arr.my_map( &my_proc )
