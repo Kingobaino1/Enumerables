@@ -216,11 +216,16 @@ module Enumerable
      reduce = nil
      first_element = array.shift
      array.unshift(first_element)
-     if args.size.zero?
+     if args.size.zero? || (args.size == 1 && block_given?)
+       if args.size == 1
+      first_element = args[0]
+       i = 0
+       else
        i = 1
+       end
        while i < array.length
          if block_given?
-           block_value = yield first_element, array[i]
+         block_value = yield first_element, array[i]
            reduce = block_value
            first_element = reduce
          elsif !block_given? || !args.size.zero?
@@ -261,4 +266,9 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
+p [1,2,3,4].my_inject{|sum, val| sum + val} #12
+p [1,2,3,4].my_inject{|sum, val| sum * val} #48
+p [1,2,3,4].my_inject{|sum, val| sum - val} #-8
+p [1,2,3,4].my_inject{|sum, val| sum / val} #0
+# p [1,2,3,4].my_inject(5, :+)
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
