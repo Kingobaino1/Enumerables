@@ -255,10 +255,4 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
-p (1..10).my_select { |i|  i > 0 }   #=> [3, 6, 9]
- 
-p [1,2,3,4,5].my_select { |num|  num.odd?  }   #=> [2, 4]
-
-p [:foo, :bar].my_select { |x| x == :foo }   #=> [:foo]
-
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength
