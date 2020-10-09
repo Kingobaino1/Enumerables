@@ -2,8 +2,7 @@
 
 module Enumerable
   def my_each
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range or self.class == Hash
+    array = to_a
     i = 0
     while i < array.length
       if block_given?
@@ -17,8 +16,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range or self.class == Hash
+    array = to_a
     value = 0
     while value < array.length
       if block_given?
@@ -32,8 +30,7 @@ module Enumerable
   end
 
   def my_select
-    arr = self if self.class == Array
-    arr = self.to_a if self.class == Range
+    arr = to_a
     array = []
     i = 0
     while i < arr.length
@@ -50,8 +47,7 @@ module Enumerable
   end
 
  def my_all?(args = nil)
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range
+    array = to_a
     if args.nil?
       i = 0
       while i < array.size
@@ -91,8 +87,7 @@ module Enumerable
   end
 
   def my_any?(args = nil)
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range
+    array = to_a
     if args.nil?
       i = 0
       while i < array.size
@@ -131,8 +126,7 @@ module Enumerable
   end
 
   def my_none?(args = nil)
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range
+    array = to_a
     if args.nil?
       i = 0
       while i < array.size
@@ -171,8 +165,7 @@ module Enumerable
   end
 
   def my_count(*num)
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range
+    array = to_a
     count = 0
     if num.length.zero?
       i = 0
@@ -199,83 +192,73 @@ module Enumerable
   end
 
   def my_map(my_proc = nil)
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range 
+    array = to_a
+    return to_enum(:my_map) unless block_given? || my_proc
     result = []
-    i = 0
-    while i < array.length
-          if block_given? && my_proc != nil
-          result.push my_proc.call(array[i])
-        elsif my_proc.nil?
-          result.push yield array[i]
-       else
-         return to_enum(:my_map)
-       end
-      i += 1
+    if my_proc
+      i = 0
+      while i < array.length
+        result.push my_proc.call(array[i])
+        i += 1
+      end
+    else
+      j = 0
+      while j < array.size
+        result.push(yield array[j])
+        j += 1
+      end
     end
     result
   end
 
-  def my_inject(my_procs = nil, my_proc = nil)
-    array = self if self.class == Array
-    array = self.to_a if self.class == Range 
-    reduce = nil
-    first_element = array.shift
-    array.unshift(first_element)
-    i = 1
-    while i < array.length
-      if block_given?
-        block_value = yield first_element, array[i]
-        reduce = block_value
-        first_element = reduce
-      elsif my_proc == :+
-        proc_symbol = first_element + array[i]
-        reduce = proc_symbol
-        first_element = reduce
-      elsif my_proc == :*
-        proc_symbol = first_element * array[i]
-        reduce = proc_symbol
-        first_element = reduce
-      elsif my_proc == :-
-        proc_symbol = first_element - array[i]
-        reduce = proc_symbol
-        first_element = reduce
-      elsif my_proc == :/
-        proc_symbol = first_element / array[i]
-        reduce = proc_symbol
-        first_element = reduce
-    
-    end
-      i += 1
-    end 
-    if my_procs == "" && my_proc == :+
-     return my_procs.to_i + my_proc
-    end
-    reduce + my_procs.to_i
+  def my_inject(*args)
+     array = to_a
+     reduce = nil
+     first_element = array.shift
+     array.unshift(first_element)
+     if args.size.zero?
+       i = 1
+       while i < array.length
+         if block_given?
+           block_value = yield first_element, array[i]
+           reduce = block_value
+           first_element = reduce
+         elsif !block_given? || !args.size.zero?
+           return yield
+         end
+         i += 1
+       end
+     elsif args.size == 1
+       j = 1
+       while j < array.length
+         operator = args[0].to_s
+         proc_symbol = (first_element.send operator, array[j])
+         reduce = proc_symbol
+         first_element = reduce
+         j += 1
+       end 
+     elsif args.size == 2
+       j = 1
+       reduce_2 = nil
+       operator = args[1].to_s
+       while j < array.length 
+         proc_symbol = (first_element.send operator, array[j])
+         reduce_2 = proc_symbol
+         first_element = reduce_2
+         j += 1
+       end 
+         reduce_2 = args[0].send operator, reduce_2
+     end
+     if args.size.zero? || args.size == 1
+       return reduce
+     else
+       return reduce_2
+     end
   end
 end
 
 def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
-# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-# p %w[ant bear cat].my_all?(/a/)                        #=> false
-# p [1, 2, 3].my_all?(Integer)                       #=> true
-# p [false, true, 99].my_all?                              #=> false
-# p [].my_all?{|num| num == 0}   
-# arr = [1,2,3,4]
 
-p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
-p [].my_none?                                           #=> true
-p [nil].my_none?                                        #=> true
-p [nil, false].my_none?                                 #=> true
-                                    #=> true
-# my_proc = proc {|num| num * 2}
-# my_procs = arr.my_map( &my_proc )
-# my_procs = arr.my_map {|num| num ** 2}   
-# my_procs = arr.my_map(&my_proc) {|num| num ** 2}  
-# p (1..5).my_inject(:+)
-#  p my_procs
 # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/BlockNesting, Metrics/ModuleLength
