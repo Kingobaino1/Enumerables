@@ -90,29 +90,42 @@ module Enumerable
     true
   end
 
-  def my_any?(*args)
-    if args.length.zero?
+  def my_any?(args = nil)
+    array = self if self.class == Array
+    array = self.to_a if self.class == Range
+    if args.nil?
       i = 0
-      while i < self.length
-        if block_given?
-          if yield self[i]
-            return true
-          end
-        else
+      while i < array.size
+        if block_given? && (yield array[i])
+          return true
+        elsif !block_given? && (array[i])
           return true
         end
         i += 1
+        end
+    elsif args != nil
+      j = 0 
+      while j < array.size
+       if array[j].is_a?(Float) && args == Float
+        return true
+       elsif array[j].is_a?(Integer) && args == Integer
+        return true
+       elsif array[j].is_a?(Numeric) && args == Numeric
+        return true 
+       elsif args.is_a?(Numeric) && array[j] == args
+        return true  
       end
-    else
-      j = 0
-      while j < self.length
-        if args[0] == self[j]
+      j += 1
+      end
+    end
+    if args != nil && args.is_a?(Regexp)
+      i = 0
+      while i < self.size
+        if array[i].match?(args)
           return true
         end
-
-        j += 1
-      end
-
+        i += 1
+      end 
     end
     false
   end
