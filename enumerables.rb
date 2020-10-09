@@ -1,15 +1,12 @@
-# frozen_string_literal: true
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength
 
 module Enumerable
   def my_each
     array = to_a
+    return to_enum(:my_each) unless block_given?
     i = 0
     while i < array.length
-      if block_given?
-        yield array[i]
-      else
-        return to_enum(:my_each)
-      end
+      yield array[i]
       i += 1
     end
     self
@@ -17,13 +14,10 @@ module Enumerable
 
   def my_each_with_index
     array = to_a
+    return to_enum(:my_each_with_index) unless block_given?
     value = 0
     while value < array.length
-      if block_given?
-        yield(array[value], value)
-      else
-        return to_enum(:my_each_with_index)
-      end
+      yield(array[value], value)
       value += 1
     end
     array
@@ -31,14 +25,11 @@ module Enumerable
 
   def my_select
     arr = to_a
+    return to_enum(:my_select) unless block_given?
     array = []
     i = 0
     while i < arr.length
-      if block_given?
-        array.push(arr[i]) if yield arr[i]
-      else
-        return to_enum(:my_select)
-      end
+      array.push(arr[i]) if yield arr[i]
       i += 1
     end
     array
@@ -264,4 +255,10 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
-# rubocop:enable
+p (1..10).my_select { |i|  i > 0 }   #=> [3, 6, 9]
+ 
+p [1,2,3,4,5].my_select { |num|  num.odd?  }   #=> [2, 4]
+
+p [:foo, :bar].my_select { |x| x == :foo }   #=> [:foo]
+
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength
