@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/ModuleLength
-
 module Enumerable
   def my_each
     array = to_a
@@ -37,9 +35,7 @@ module Enumerable
     i = 0
     while i < arr.length
       if block_given?
-        if yield arr[i]
-          array.push(arr[i])
-        end
+        array.push(arr[i]) if yield arr[i]
       else
         return to_enum(:my_select)
       end
@@ -80,10 +76,8 @@ module Enumerable
     end
     if !args.nil? && args.is_a?(Regexp)
       i = 0
-      while i < self.size
-        unless array[i].match?(args)
-          return false
-        end
+      while i < size
+        return false unless array[i].match?(args)
 
         i += 1
       end
@@ -122,10 +116,8 @@ module Enumerable
     end
     if !args.nil? && args.is_a?(Regexp)
       i = 0
-      while i < self.size
-        if array[i].match?(args)
-          return true
-        end
+      while i < size
+        return true if array[i].match?(args)
 
         i += 1
       end
@@ -164,10 +156,8 @@ module Enumerable
     end
     if !args.nil? && args.is_a?(Regexp)
       i = 0
-      while i < self.size
-        if array[i].match?(args)
-          return false
-        end
+      while i < size
+        return false if array[i].match?(args)
 
         i += 1
       end
@@ -191,9 +181,7 @@ module Enumerable
     elsif num.length == 1
       i = 0
       while i < array.length
-        if num[0] == array[i]
-          count += 1
-        end
+        count += 1 if num[0] == array[i]
         i += 1
       end
     end
@@ -276,4 +264,4 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/RedundantSelf, Style/GuardClause, Style/IfUnlessModifier, Metrics/ModuleLength
+# rubocop:enable
