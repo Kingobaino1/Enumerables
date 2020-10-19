@@ -1,5 +1,6 @@
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength, Metrics/AbcSize, Style/IfUnlessModifier
 
+# This is an enumerable module
 module Enumerable
   def my_each
     array = to_a
@@ -29,6 +30,8 @@ module Enumerable
 
   def my_select
     arr = to_a
+    hash = {}
+    cl = self.class
     return to_enum(:my_select) unless block_given?
 
     array = []
@@ -37,7 +40,17 @@ module Enumerable
       array.push(arr[i]) if yield arr[i]
       i += 1
     end
-    array
+    if [Array, Range].include?(cl)
+      array
+    elsif cl == Hash
+      a = array.flatten
+      a.my_each_with_index do |v, j|
+        if j.even?
+          hash[v] = a[j + 1]
+        end
+      end
+      hash
+    end
   end
 
   def my_all?(args = nil)
@@ -223,7 +236,7 @@ module Enumerable
           reduce = block_value
           first_element = reduce
         elsif !block_given? || !args.size.zero?
-          return yield
+          return to_enum(:my_inject)
         end
         i += 1
       end
@@ -260,4 +273,4 @@ def multiply_els(arr)
   arr.my_inject { |result, element| result * element }
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Style/GuardClause, Metrics/BlockNesting, Metrics/ModuleLength, Metrics/AbcSize, Style/IfUnlessModifier
