@@ -1,4 +1,3 @@
-# rubocop:disable Style/FrozenStringLiteralComment
 require './enumerables.rb'
 
 describe Enumerable do
@@ -208,5 +207,3 @@ describe Enumerable do
     end
   end
 end
-
-# rubocop:enable Style/FrozenStringLiteralComment
