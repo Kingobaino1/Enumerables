@@ -57,4 +57,56 @@ describe Enumerable do
       expect(hash.my_select { |k, v| v > 2 }).to eql({ c: 3 })
     end
   end
+
+  describe "#my_any?" do
+    it 'return true when any value on the array accomplish condition' do
+      expect(array.my_any? {|n| n > 2}).to eql TRUE
+    end
+
+    it 'return false when none value on the array accomplish condition' do
+      expect(array.my_any? {|n| n > 6}).to eql FALSE
+    end
+
+    it 'return true when any value on the range accomplish condition' do
+      expect(range.my_any? {|n| n > 2}).to eql TRUE
+    end
+
+    it 'return false when none value on the range accomplish condition' do
+      expect(range.my_any? {|n| n > 6}).to eql FALSE
+    end
+
+    it 'return true when any value on the hash accomplish condition' do
+      expect(hash.my_any? {|k, v| v > 2}).to eql TRUE
+    end
+
+    it 'return false when none value on the hash accomplish condition' do
+      expect(hash.my_any? {|k, v| v > 6}).to eql FALSE
+    end
+  end
+
+  describe "#my_none?" do
+    it 'return false when none value on the array accomplish condition' do
+      expect(array.my_none? {|n| n > 2}).to eql FALSE
+    end
+
+    it 'return true when any value on the array accomplish condition' do
+      expect(array.my_none? {|n| n > 6}).to eql TRUE
+    end
+
+    it 'return false when none value on the range accomplish condition' do
+      expect(range.my_none? {|n| n > 2}).to eql FALSE
+    end
+
+    it 'return true when any value on the range accomplish condition' do
+      expect(range.my_none? {|n| n > 6}).to eql TRUE
+    end
+
+    it 'return false when none value on the hash accomplish condition' do
+      expect(hash.my_none? {|k, v| v > 2}).to eql FALSE
+    end
+
+    it 'return true when any value on the hash accomplish condition' do
+      expect(hash.my_none? {|k, v| v > 6}).to eql TRUE
+    end
+  end
 end
