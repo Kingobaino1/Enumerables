@@ -58,6 +58,32 @@ describe Enumerable do
     end
   end
 
+  describe "#my_all" do
+    it 'return true when all value on the array accomplish condition' do
+      expect(array.my_all? {|n| n > 2}).to eql FALSE
+    end
+
+    it 'return false when none value on the array accomplish condition' do
+      expect(array.my_all? {|n| n > 6}).to eql FALSE
+    end
+
+    it 'return false when some value on the range did not accomplish condition' do
+      expect(range.my_all? {|n| n > 2}).to eql FALSE
+    end
+
+    it 'return false when all value on the range accomplish condition' do
+      expect(range.my_all? {|n| n < 6}).to eql TRUE
+    end
+
+    it 'return true when all value on the hash accomplish condition' do
+      expect(hash.my_all? {|k, v| v < 7}).to eql TRUE
+    end
+
+    it 'return false when any value on the hash do not accomplish condition' do
+      expect(hash.my_all? {|k, v| v > 3}).to eql FALSE
+    end
+  end
+
   describe "#my_any?" do
     it 'return true when any value on the array accomplish condition' do
       expect(array.my_any? {|n| n > 2}).to eql TRUE
