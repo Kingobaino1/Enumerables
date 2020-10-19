@@ -1,4 +1,4 @@
-# rubocop:disable Style/FrozenStringLiteralComment, Metrics/BlockLength
+# rubocop:disable Style/FrozenStringLiteralComment
 require './enumerables.rb'
 
 describe Enumerable do
@@ -209,4 +209,4 @@ describe Enumerable do
   end
 end
 
-# rubocop:enable Style/FrozenStringLiteralComment, Metrics/BlockLength
+# rubocop:enable Style/FrozenStringLiteralComment
