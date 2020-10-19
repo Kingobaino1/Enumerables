@@ -1,3 +1,4 @@
+# rubocop:disable Style/FrozenStringLiteralComment, Metrics/BlockLength
 require './enumerables.rb'
 
 describe Enumerable do
@@ -25,15 +26,15 @@ describe Enumerable do
 
   describe '#my_each_with_index' do
     it 'does not mutate array' do
-      expect(array.my_each_with_index { |num, idx| num > 2 }).to eql(array)
+      expect(array.my_each_with_index { |num, _idx| num > 2 }).to eql(array)
     end
 
     it 'accepts a range' do
-      expect(range.my_each_with_index { |num, idx| num > 2 }).to eql(range)
+      expect(range.my_each_with_index { |num, _idx| num > 2 }).to eql(range)
     end
 
     it 'accepts a hash' do
-      expect(hash.my_each_with_index { |num, idx| num }).to eql(hash)
+      expect(hash.my_each_with_index { |num, _idx| num }).to eql(hash)
     end
 
     it 'returns Enumerator when block is not given' do
@@ -55,7 +56,7 @@ describe Enumerable do
     end
 
     it 'returns a filter array for a hash' do
-      expect(hash.my_select { |k, v| v > 2 }).to eql({ c: 3 })
+      expect(hash.my_select { |_k, v| v > 2 }).to eql({ c: 3 })
     end
   end
 
@@ -77,11 +78,11 @@ describe Enumerable do
     end
 
     it 'true when all values are true on hash' do
-      expect(hash.my_all? { |k, v| v < 7 }).to eql TRUE
+      expect(hash.my_all? { |_k, v| v < 7 }).to eql TRUE
     end
 
     it 'false when one values is false on range' do
-      expect(hash.my_all? { |k, v| v > 3 }).to eql FALSE
+      expect(hash.my_all? { |_k, v| v > 3 }).to eql FALSE
     end
   end
 
@@ -103,11 +104,11 @@ describe Enumerable do
     end
 
     it 'true when any value is true on the hash' do
-      expect(hash.my_any? { |k, v| v > 2 }).to eql TRUE
+      expect(hash.my_any? { |_k, v| v > 2 }).to eql TRUE
     end
 
     it 'false when no value is true on the hash' do
-      expect(hash.my_any? { |k, v| v > 6 }).to eql FALSE
+      expect(hash.my_any? { |_k, v| v > 6 }).to eql FALSE
     end
   end
 
@@ -117,7 +118,7 @@ describe Enumerable do
     end
 
     it 'true when any value is true on the array' do
-      expect(array.my_none? { |n| n > 6} ).to eql TRUE
+      expect(array.my_none? { |n| n > 6 }).to eql TRUE
     end
 
     it 'false when no value is true on the range' do
@@ -129,11 +130,11 @@ describe Enumerable do
     end
 
     it 'false when no value is true on the hash' do
-      expect(hash.my_none? { |k, v| v > 2 }).to eql FALSE
+      expect(hash.my_none? { |_k, v| v > 2 }).to eql FALSE
     end
 
     it 'true when any value is true on the hash' do
-      expect(hash.my_none? { |k, v| v > 6 }).to eql TRUE
+      expect(hash.my_none? { |_k, v| v > 6 }).to eql TRUE
     end
   end
 
@@ -207,3 +208,5 @@ describe Enumerable do
     end
   end
 end
+
+# rubocop:enable Style/FrozenStringLiteralComment, Metrics/BlockLength
