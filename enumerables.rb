@@ -235,7 +235,7 @@ module Enumerable
           reduce = block_value
           first_element = reduce
         elsif !block_given? || !args.size.zero?
-          return yield
+          return self.to_enum(:my_inject)
         end
         i += 1
       end

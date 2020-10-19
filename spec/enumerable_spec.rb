@@ -138,23 +138,23 @@ describe Enumerable do
   end
 
   describe '#my_count' do
-    it 'returns the length of the array if no block and no argument are given' do 
+    it 'returns the length of the array if no block and no argument are given' do
       expect(array.my_count).to eql(5)
     end
 
-    it 'returns the number of elements in a range if no block and no argument are given' do 
+    it 'returns the number of elements in a range if no block and no argument are given' do
       expect(range.my_count).to eql(6)
     end
 
-    it 'returns the number of elements in a hash if no block and no argument are given' do 
+    it 'returns the number of elements in a hash if no block and no argument are given' do
       expect(hash.my_count).to eql(3)
     end
 
-    it 'returns the number of elements satisfying the block condition' do 
+    it 'returns the number of elements satisfying the block condition' do
       expect(array.my_count { |num| num == 2 }).to eql(1)
     end
 
-    it 'returns the number of elements that are equal to the argument value' do 
+    it 'returns the number of elements that are equal to the argument value' do
       expect(array.my_count(1)).to eql(1)
     end
   end
@@ -174,6 +174,36 @@ describe Enumerable do
 
     it 'accepts a proc' do
       expect(array.my_map(&my_proc)).to eql([2, 3, 4, 5, 6])
+    end
+  end
+
+  describe '#my_inject' do
+    it 'should return the final sum accumulator of all array numbers' do
+      expect(array.my_inject(:+)).to eql 15
+    end
+
+    it 'should return the final sum accumulator of all array numbers with initial value and symbol given' do
+      expect(array.my_inject(0, :+)).to eql 15
+    end
+
+    it 'should return the final multiple accumulator of all array numbers' do
+      expect(array.my_inject(:*)).to eql 120
+    end
+
+    it 'should return the final multiple accumulator of all array numbers with initial value and symbol given' do
+      expect(array.my_inject(1, :*)).to eql 120
+    end
+
+    it 'should return block accumulator of all array numbers' do
+      expect(array.my_inject {|sum, num| sum + num}).to eql 15
+    end
+
+    it 'should return block accumulator for a range' do
+      expect(range.my_inject {|sum, num| sum + num}).to eql 15
+    end
+
+    it 'returns enumerator when no block or argument given' do
+      expect(range.my_inject).to be_an(Enumerator)
     end
   end
 end
