@@ -5,6 +5,7 @@ describe Enumerable do
   let(:range) { (0..5) }
   let(:hash) { { a: 1, b: 2, c: 3 } }
   let(:my_proc) { proc { |num| num + 1 } }
+  
   describe '#my_each' do
     it 'does not mutate array' do
       expect(array.my_each { |num| num > 2 }).to eql(array)
@@ -112,27 +113,27 @@ describe Enumerable do
   end
 
   describe '#my_none?' do
-    it 'false when no value is true on the array' do
-      expect(array.my_none? { |n| n > 2 }).to eql FALSE
-    end
-
-    it 'true when any value is true on the array' do
+    it 'true when no value is true on the array' do
       expect(array.my_none? { |n| n > 6 }).to eql TRUE
     end
 
-    it 'false when no value is true on the range' do
-      expect(range.my_none? { |n| n > 2 }).to eql FALSE
+    it 'false when any value is true on the array' do
+      expect(array.my_none? { |n| n > 2 }).to eql FALSE
     end
 
-    it 'false when any value is true on the range' do
+    it 'true when no value is true on the range' do
       expect(range.my_none? { |n| n > 6 }).to eql TRUE
     end
 
-    it 'false when no value is true on the hash' do
-      expect(hash.my_none? { |_k, v| v > 2 }).to eql FALSE
+    it 'false when any value is true on the range' do
+      expect(range.my_none? { |n| n > 2 }).to eql FALSE
     end
 
-    it 'true when any value is true on the hash' do
+    it 'true when no value is true on the hash' do
+      expect(hash.my_none? { |_k, v| v > 6 }).to eql TRUE
+    end
+
+    it 'true when all value is false on the hash' do
       expect(hash.my_none? { |_k, v| v > 6 }).to eql TRUE
     end
   end
