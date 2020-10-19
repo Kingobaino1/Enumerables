@@ -29,6 +29,7 @@ module Enumerable
 
   def my_select
     arr = to_a
+    h = {}
     return to_enum(:my_select) unless block_given?
 
     array = []
@@ -37,7 +38,18 @@ module Enumerable
       array.push(arr[i]) if yield arr[i]
       i += 1
     end
-    array
+    if self.class == Array || self.class == Range
+      array
+    elsif self.class == Hash
+      a = array.flatten
+      a.my_each_with_index do |v, i|
+        if i.even?
+          h[v] = a[i + 1]
+        end
+
+      end
+      h
+    end
   end
 
   def my_all?(args = nil)
