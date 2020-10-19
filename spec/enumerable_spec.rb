@@ -5,7 +5,7 @@ describe Enumerable do
   let(:range) { (0..5) }
   let(:hash) { { a: 1, b: 2, c: 3 } }
   let(:my_proc) { proc { |num| num + 1 } }
-  
+
   describe '#my_each' do
     it 'does not mutate array' do
       expect(array.my_each { |num| num > 2 }).to eql(array)
