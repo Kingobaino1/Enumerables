@@ -29,7 +29,7 @@ module Enumerable
 
   def my_select
     arr = to_a
-    h = {}
+    hash = {}
     return to_enum(:my_select) unless block_given?
 
     array = []
@@ -44,11 +44,10 @@ module Enumerable
       a = array.flatten
       a.my_each_with_index do |v, j|
         if j.even?
-          h[v] = a[j + 1]
+          hash[v] = a[j + 1]
         end
-
       end
-      h
+      hash
     end
   end
 
