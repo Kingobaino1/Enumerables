@@ -60,93 +60,93 @@ describe Enumerable do
   end
 
   describe '#my_all' do
-    it 'return true when all value on the array accomplish condition' do
-      expect(array.my_all? {|n| n > 2}).to eql FALSE
+    it 'returns true when all values are true on array' do
+      expect(array.my_all? { |n| n > 2 }).to eql FALSE
     end
 
-    it 'return false when none value on the array accomplish condition' do
-      expect(array.my_all? {|n| n > 6}).to eql FALSE
+    it 'returns false when one values is false on array' do
+      expect(array.my_all? { |n| n > 6 }).to eql FALSE
     end
 
-    it 'return false when some value on the range did not accomplish condition' do
-      expect(range.my_all? {|n| n > 2}).to eql FALSE
+    it 'returns false when one values is false on range' do
+      expect(range.my_all? { |n| n > 2 }).to eql FALSE
     end
 
-    it 'return false when all value on the range accomplish condition' do
-      expect(range.my_all? {|n| n < 6}).to eql TRUE
+    it 'returns true when all values are true on range' do
+      expect(range.my_all? { |n| n < 6 }).to eql TRUE
     end
 
-    it 'return true when all value on the hash accomplish condition' do
-      expect(hash.my_all? {|k, v| v < 7}).to eql TRUE
+    it 'true when all values are true on hash' do
+      expect(hash.my_all? { |k, v| v < 7 }).to eql TRUE
     end
 
-    it 'return false when any value on the hash do not accomplish condition' do
-      expect(hash.my_all? {|k, v| v > 3}).to eql FALSE
+    it 'false when one values is false on range' do
+      expect(hash.my_all? { |k, v| v > 3 }).to eql FALSE
     end
   end
 
   describe '#my_any?' do
-    it 'return true when any value on the array accomplish condition' do
-      expect(array.my_any? {|n| n > 2}).to eql TRUE
+    it 'true when any value is true on the array' do
+      expect(array.my_any? { |n| n > 2 }).to eql TRUE
     end
 
-    it 'return false when none value on the array accomplish condition' do
-      expect(array.my_any? {|n| n > 6}).to eql FALSE
+    it 'false when no value is true on the array' do
+      expect(array.my_any? { |n| n > 6 }).to eql FALSE
     end
 
-    it 'return true when any value on the range accomplish condition' do
-      expect(range.my_any? {|n| n > 2}).to eql TRUE
+    it 'true when any value is true on the range' do
+      expect(range.my_any? { |n| n > 2 }).to eql TRUE
     end
 
-    it 'return false when none value on the range accomplish condition' do
-      expect(range.my_any? {|n| n > 6}).to eql FALSE
+    it 'false when no value is true on the range' do
+      expect(range.my_any? { |n| n > 6 }).to eql FALSE
     end
 
-    it 'return true when any value on the hash accomplish condition' do
-      expect(hash.my_any? {|k, v| v > 2}).to eql TRUE
+    it 'true when any value is true on the hash' do
+      expect(hash.my_any? { |k, v| v > 2 }).to eql TRUE
     end
 
-    it 'return false when none value on the hash accomplish condition' do
-      expect(hash.my_any? {|k, v| v > 6}).to eql FALSE
+    it 'false when no value is true on the hash' do
+      expect(hash.my_any? { |k, v| v > 6 }).to eql FALSE
     end
   end
 
   describe '#my_none?' do
-    it 'return false when none value on the array accomplish condition' do
-      expect(array.my_none? {|n| n > 2}).to eql FALSE
+    it 'false when no value is true on the array' do
+      expect(array.my_none? { |n| n > 2 }).to eql FALSE
     end
 
-    it 'return true when any value on the array accomplish condition' do
-      expect(array.my_none? {|n| n > 6}).to eql TRUE
+    it 'true when any value is true on the array' do
+      expect(array.my_none? { |n| n > 6} ).to eql TRUE
     end
 
-    it 'return false when none value on the range accomplish condition' do
-      expect(range.my_none? {|n| n > 2}).to eql FALSE
+    it 'false when no value is true on the range' do
+      expect(range.my_none? { |n| n > 2 }).to eql FALSE
     end
 
-    it 'return true when any value on the range accomplish condition' do
-      expect(range.my_none? {|n| n > 6}).to eql TRUE
+    it 'false when any value is true on the range' do
+      expect(range.my_none? { |n| n > 6 }).to eql TRUE
     end
 
-    it 'return false when none value on the hash accomplish condition' do
-      expect(hash.my_none? {|k, v| v > 2}).to eql FALSE
+    it 'false when no value is true on the hash' do
+      expect(hash.my_none? { |k, v| v > 2 }).to eql FALSE
     end
 
-    it 'return true when any value on the hash accomplish condition' do
-      expect(hash.my_none? {|k, v| v > 6}).to eql TRUE
+    it 'true when any value is true on the hash' do
+      expect(hash.my_none? { |k, v| v > 6 }).to eql TRUE
     end
   end
 
   describe '#my_count' do
-    it 'returns the length of the array if no block and no argument are given' do
+    it 'length of the array if no block and no argument are given' do
       expect(array.my_count).to eql(5)
     end
 
-    it 'returns the number of elements in a range if no block and no argument are given' do
+    it 'number of elements in a range if no block and no argument are given' do
       expect(range.my_count).to eql(6)
     end
 
-    it 'returns the number of elements in a hash if no block and no argument are given' do
+    it 'number of elements in a hash if no block and no argument are given' do
       expect(hash.my_count).to eql(3)
     end
 
@@ -160,11 +160,11 @@ describe Enumerable do
   end
 
   describe '#my_map' do
-    it 'returns a new array for any given operation on each element of an array' do
+    it 'a new array for any given operation on each element of an array' do
       expect(array.my_map { |num| num * 2 }).to eql([2, 4, 6, 8, 10])
     end
 
-    it 'returns a new array for any given operation on each element of a range' do
+    it 'a new array for any given operation on each element of a range' do
       expect(range.my_map { |num| num * 2 }).to eql([0, 2, 4, 6, 8, 10])
     end
 
@@ -178,28 +178,28 @@ describe Enumerable do
   end
 
   describe '#my_inject' do
-    it 'should return the final sum accumulator of all array numbers' do
+    it 'inject array with symbol' do
       expect(array.my_inject(:+)).to eql 15
     end
 
-    it 'should return the final sum accumulator of all array numbers with initial value and symbol given' do
+    it 'inject array with initial value and symbol' do
       expect(array.my_inject(0, :+)).to eql 15
     end
 
-    it 'should return the final multiple accumulator of all array numbers' do
+    it 'inject array with symbol' do
       expect(array.my_inject(:*)).to eql 120
     end
 
-    it 'should return the final multiple accumulator of all array numbers with initial value and symbol given' do
+    it 'inject array with initial value and symbol' do
       expect(array.my_inject(1, :*)).to eql 120
     end
 
-    it 'should return block accumulator of all array numbers' do
-      expect(array.my_inject {|sum, num| sum + num}).to eql 15
+    it 'inject array when block is given' do
+      expect(array.my_inject { |sum, num| sum + num }).to eql 15
     end
 
-    it 'should return block accumulator for a range' do
-      expect(range.my_inject {|sum, num| sum + num}).to eql 15
+    it 'inject range when block is given' do
+      expect(range.my_inject { |sum, num| sum + num }).to eql 15
     end
 
     it 'returns enumerator when no block or argument given' do

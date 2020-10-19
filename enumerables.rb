@@ -42,9 +42,9 @@ module Enumerable
       array
     elsif self.class == Hash
       a = array.flatten
-      a.my_each_with_index do |v, i|
-        if i.even?
-          h[v] = a[i + 1]
+      a.my_each_with_index do |v, j|
+        if j.even?
+          h[v] = a[j + 1]
         end
 
       end
