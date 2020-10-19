@@ -21,4 +21,22 @@ describe Enumerable do
       expect(array.my_each).to be_an(Enumerator)
     end
   end
+
+  describe '#my_each_with_index' do
+    it 'does not mutate array' do
+      expect(array.my_each_with_index { |num, idx| num > 2 }).to eql(array)
+    end
+
+    it 'accepts a range' do
+      expect(range.my_each_with_index { |num, idx| num > 2 }).to eql(range)
+    end
+
+    it 'accepts a hash' do
+      expect(hash.my_each_with_index { |num, idx| num }).to eql(hash)
+    end
+
+    it 'returns Enumerator when block is not given' do
+      expect(array.my_each_with_index).to be_an(Enumerator)
+    end
+  end
 end
